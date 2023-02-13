@@ -7,8 +7,6 @@ int Hand::getSize() {
 }
 
 void Hand::addCard(Card c) {
-    this->clear();
-
     this->cards.push_back(c);
 }
 
