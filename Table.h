@@ -23,10 +23,11 @@ class Table {
         void createBoardCards(int numCards); // burns one card
         void dealCards(int numCards);
         void addPlayers(int numPlayers);
+        void removePlayers(int numPlayers);
         
         // getters
         std::vector<Player> getAllPlayersInfo();
-        std::vector<Player> getBoard();
+        std::vector<Card> getBoard();
         int getCurrNumPlayers();
 
 };
