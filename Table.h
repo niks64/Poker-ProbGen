@@ -30,6 +30,12 @@ class Table {
         std::vector<Card> getBoard();
         int getCurrNumPlayers();
 
+        // prints
+        void printPlayersCards();
+        void printBoard();
+        void print();
+        
+
 };
 
 #endif

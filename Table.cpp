@@ -81,3 +81,15 @@ std::vector<Card> Table::getBoard() {
 int Table::getCurrNumPlayers() {
     return this->players.size();
 }
+
+void Table::printPlayersCards() {
+    int s = this->players.size();
+
+    for (int i = 0; i < s; i++) {
+        std::cout << i << "    ";
+    }
+
+    for (int i = 0; i < s; i++) {
+        this->players[i].getHand();
+    }
+}
