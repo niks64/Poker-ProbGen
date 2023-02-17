@@ -1,8 +1,5 @@
-#include <unordered_map>
-#include <iostream>
-#include "definitions.h"
-#include "Card.h"
 #include "Hand.h"
+
 int main() {
 
     // for (int i = 1; i<=4; i++) {
@@ -11,7 +8,6 @@ int main() {
     // }
     Card c1 = Card(static_cast<suit>(1),static_cast<value>(10));
     Card c2 = Card(static_cast<suit>(2),static_cast<value>(10));
-    Card c3 = Card(static_cast<suit>(2),static_cast<value>(14));
 
     Hand h = Hand();
     h.addCard(c1);

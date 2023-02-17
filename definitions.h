@@ -2,19 +2,21 @@
 #define DEFINITIONS_H
 #include <unordered_map>
 #include <stdio.h>
+#include <iostream>
+#include <vector>
 
 
 enum suit {SPADE = 1, HEART = 2, DIAMOND = 3, CLUB = 4};
 enum value {two=2, three=3, four=4, five=5, six=6, seven=7, eight=8, nine=9, ten=10, jack=11, queen=12, king=13, ace=14};
 
-std::unordered_map<suit, std::string> suitStrings = {
+static std::unordered_map<suit, std::string> suitStrings = {
     {SPADE, "\u2660"},
     {DIAMOND, "\u2661"},
     {HEART, "\u2662"},
     {CLUB, "\u2663"}
 };
 
-std::unordered_map<value, std::string> valueStrings = {
+static std::unordered_map<value, std::string> valueStrings = {
     {two, "2"},
     {three, "3"},
     {four, "4"},
