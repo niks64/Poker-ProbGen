@@ -3,13 +3,16 @@ TESTFLAGS = -std=c++14
 
 
 test:
-	g++ test.cpp Card.cpp Hand.cpp ${TESTFLAGS} -o test
+	g++ test.cpp Card.cpp Hand.cpp Player.cpp Table.cpp ${TESTFLAGS} -o tester
 
 runTest:
-	./test
+	./tester
 
 build:
 	g++ Card.cpp Hand.cpp Player.cpp Table.cpp -o main
 
 run:
 	./main
+
+clean: 
+	rm -f test main

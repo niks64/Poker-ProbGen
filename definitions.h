@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <iostream>
 #include <vector>
+#include <cstdlib>
+#include <random>
+#include <algorithm>
 
 
 enum suit {SPADE = 1, HEART = 2, DIAMOND = 3, CLUB = 4};

@@ -1,15 +1,23 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <Hand.h>
+#include "Hand.h"
 
 class Player {
     private:
         Hand hand;
     public:
         Player();
-        void addHand(std::vector<Card> hand);
+
+        // getters
         Hand getHand();
+
+        // setters
+        void addHand(std::vector<Card> hand);
+        void addCard(Card c);
         void clear();
+
+        // print
+        void printHand();
 };
 
 #endif

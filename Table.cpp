@@ -1,8 +1,11 @@
-#include <Table.h>
-#include <cstdlib>
+#include "Table.h"
 
-Table::Table() {
+void printNewLine(int num) {
+    for (int i = 0; i < num; i++) std::cout << std::endl;
+}
 
+void printBar() {
+    std::cout << "| ";
 }
 
 void Table::resetAndShuffleDeck() {
@@ -24,6 +27,11 @@ void Table::resetAndShuffleDeck() {
     std::shuffle(std::begin(this->deck), std::end(this->deck), rng);
 }
 
+Table::Table() {
+    resetAndShuffleDeck();
+}
+
+
 Card Table::drawCard() {
     int s = this->deck.size();
 
@@ -35,7 +43,7 @@ Card Table::drawCard() {
     return returnCard;
 }
 
-void Table::createBoardCards(int numCards) {
+void Table::dealBoardCards(int numCards) {
     for (int i = 0; i < numCards; i++) {
         Card tempCard = this->drawCard();
         board.push_back(tempCard);
@@ -82,14 +90,39 @@ int Table::getCurrNumPlayers() {
     return this->players.size();
 }
 
+
 void Table::printPlayersCards() {
     int s = this->players.size();
 
-    for (int i = 0; i < s; i++) {
-        std::cout << i << "    ";
-    }
+    printNewLine(1);
+    printf("%s\n", "--- Player Cards ---");
 
     for (int i = 0; i < s; i++) {
-        this->players[i].getHand();
+        printf("%-*s", TEXAS_HAND_STRING_LENGTH, ("P" + std::to_string(i + 1)).c_str());
+        printBar();
     }
+    printNewLine(1);
+
+    for (int i = 0; i < s; i++) {
+        this->players[i].printHand();
+        printBar();
+    }
+    printNewLine(2);
+}
+
+void Table::printBoard() {
+    printNewLine(1);
+    printf("%s\n", "---- Board ---");
+    for (Card c : this->board) {
+        c.print();
+    }
+    printNewLine(2);
+}
+
+void Table::printTable() {
+    // Print the player cards
+    this->printPlayersCards();
+
+    // Print the board
+    this->printBoard();
 }

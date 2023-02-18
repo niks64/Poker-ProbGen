@@ -1,8 +1,6 @@
 #ifndef TABLE_H
 #define TABLE_H
-#include <Player.h>
-#include <random>
-#include <algorithm>
+#include "Player.h"
 
 class Table {
     private:
@@ -14,26 +12,25 @@ class Table {
         std::vector<Player> players;
     public:
 
-        
         Table();
-        
-        // setters
-        void resetAndShuffleDeck();
-        Card drawCard();
-        void createBoardCards(int numCards); // burns one card
-        void dealCards(int numCards);
-        void addPlayers(int numPlayers);
-        void removePlayers(int numPlayers);
         
         // getters
         std::vector<Player> getAllPlayersInfo();
         std::vector<Card> getBoard();
         int getCurrNumPlayers();
 
+        // setters
+        void resetAndShuffleDeck();
+        Card drawCard();
+        void dealBoardCards(int numCards); // burns one card
+        void dealCards(int numCards);
+        void addPlayers(int numPlayers);
+        void removePlayers(int numPlayers);
+
         // prints
         void printPlayersCards();
         void printBoard();
-        void print();
+        void printTable();
         
 
 };
