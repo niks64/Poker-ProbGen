@@ -4,7 +4,8 @@
 
 class Table {
     private:
-        std::default_random_engine rng = std::default_random_engine {};
+        const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+
         const int MAX_PLAYERS = 8;
         std::vector<Card> deck;
         std::vector<Card> usedCards;
@@ -18,11 +19,12 @@ class Table {
         std::vector<Player> getAllPlayersInfo();
         std::vector<Card> getBoard();
         int getCurrNumPlayers();
+        int getNumCardsRemaining();
 
         // setters
         void resetAndShuffleDeck();
         Card drawCard();
-        void dealBoardCards(int numCards); // burns one card
+        void dealBoardCards(int numCards); // burns one card each time called
         void dealCards(int numCards);
         void addPlayers(int numPlayers);
         void removePlayers(int numPlayers);
@@ -31,7 +33,6 @@ class Table {
         void printPlayersCards();
         void printBoard();
         void printTable();
-        
 
 };
 

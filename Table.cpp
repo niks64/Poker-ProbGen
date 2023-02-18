@@ -13,6 +13,7 @@ void Table::resetAndShuffleDeck() {
     this->usedCards.clear();
     this->board.clear();
 
+
     // add cards to the deck
     for (int i = 0; i < NUM_SUITS; i++) {
         for (int j = 0; j < NUM_VALUES; j++) {
@@ -24,6 +25,7 @@ void Table::resetAndShuffleDeck() {
     }
 
     // shuffle cards
+    std::mt19937 rng(seed);
     std::shuffle(std::begin(this->deck), std::end(this->deck), rng);
 }
 
@@ -31,6 +33,9 @@ Table::Table() {
     resetAndShuffleDeck();
 }
 
+int Table::getNumCardsRemaining() {
+    return this->deck.size();
+}
 
 Card Table::drawCard() {
     int s = this->deck.size();
@@ -44,6 +49,7 @@ Card Table::drawCard() {
 }
 
 void Table::dealBoardCards(int numCards) {
+    this->drawCard();
     for (int i = 0; i < numCards; i++) {
         Card tempCard = this->drawCard();
         board.push_back(tempCard);

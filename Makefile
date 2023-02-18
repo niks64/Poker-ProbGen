@@ -1,4 +1,4 @@
-TESTFLAGS = -std=c++14
+TESTFLAGS = -std=c++20
 
 
 

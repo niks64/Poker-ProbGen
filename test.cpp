@@ -1,5 +1,14 @@
 #include "Table.h"
 
+void TestFailed(std::string msg, std::string func = __builtin_FUNCTION()) {
+    std::cout << func << ": " << msg << std::endl;
+    exit(0);
+}
+
+void TestPassed(std::string msg = "", std::string func = __builtin_FUNCTION()) {
+    std::cout << func << " passed!" << std::endl;
+}
+
 void test_suit_symbols() {
     for (int i = 1; i<=4; i++) {
         suit s = static_cast<suit>(i);
@@ -55,10 +64,40 @@ void test_table_print() {
     Table t = Table();
 
     // Setup the table
-    t.addPlayers(4);
+    t.addPlayers(8);
     t.dealCards(2);
     t.dealBoardCards(3);
     t.printTable();
+}
+
+void test_table_shuffle_correctness() {
+    Table t = Table();
+
+    t.addPlayers(5);
+    t.dealCards(2);
+
+    // Deal flop, turn and river
+    t.dealBoardCards(3);
+    t.dealBoardCards(1);
+    t.dealBoardCards(1);
+
+    if (t.getNumCardsRemaining() != 34) {
+        TestFailed("wrong number of cards");
+    }
+
+    t.printTable();
+
+    t.resetAndShuffleDeck();
+    t.dealCards(2);
+    t.dealBoardCards(3);
+
+    if (t.getNumCardsRemaining() != 38) {
+        TestFailed("part 2 wrong number of cards");
+    }
+
+    t.printTable();
+
+    TestPassed();
 }
 
 int main() {
@@ -68,6 +107,6 @@ int main() {
     // test_card_prints();
     // test_hand_print();
     // test_player_hand_print();
-    test_table_print();
-
+    //test_table_print();
+    test_table_shuffle_correctness();
 }
