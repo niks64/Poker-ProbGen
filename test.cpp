@@ -107,6 +107,6 @@ int main() {
     // test_card_prints();
     // test_hand_print();
     // test_player_hand_print();
-    //test_table_print();
+    // test_table_print();
     test_table_shuffle_correctness();
 }
