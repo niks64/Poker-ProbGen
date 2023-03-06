@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <random>
 #include <algorithm>
+#include <string.h>
 
 
 enum suit {SPADE = 1, HEART = 2, DIAMOND = 3, CLUB = 4};
