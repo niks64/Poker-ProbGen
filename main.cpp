@@ -11,6 +11,26 @@ int LookupHand(std::vector<int> cards) {
 
 }
 
+void updateIndices(std::vector<int> indices, int n) {
+    int i = indices.size() - 1;
+    bool callAgain = false;
+
+    while (i >= 0 && indices[i] >= n - 1) i--;
+
+
+    if (i < 0) indices[0] = -1;
+    else {
+        indices[i]++;
+
+        for (int j = i + 1; j < indices.size(); j++) {
+            indices[j] = indices[j - 1] + 1;
+            if (indices[j] >= n) callAgain = true;
+        }
+
+        if (callAgain) updateIndices(indices, n);
+    }
+}
+
 std::vector<int> ConvertCards(std::vector<Card> cards) {
     std::vector<int> res;
 
@@ -55,14 +75,20 @@ std::vector<double> calcProb(Table t) {
     int given = givenBoard.size();
     int remaining = 5 - given;
 
+    // Get the remaining cards in the deck
+    std::vector<int> deck = ConvertCards(t.getDeck());
+    int n = deck.size();
+
     // Counters (including one for the total)
     int total = 0;
     std::vector<int> counters(hands.size(), 0);
     
     std::vector<int> boardCards = convertedGivenBoard;
+    std::vector<int> indices;
     // Add the remaining cards
     for (int j = 0; j < remaining; j++) {
-        boardCards.push_back(j+1);
+        boardCards.push_back(deck[j]);
+        indices.push_back(j);
     }
 
     int curr = given;
@@ -89,18 +115,13 @@ std::vector<double> calcProb(Table t) {
         counters[highest] += 1;
         total += 1;
 
-        // Update the indices
-        int i = boardCards.size() - 1;
-        while (i >= given && boardCards[i] == 52) {
-            i--;
-        }
-        if (i < given) done = true;
-        else {
-            boardCards[i] += 1;
+        // Update the indices and the board cards
+        updateIndices(indices, n);
+        
+        if (indices[0] < 0) break;
 
-            for (int j = i + 1; j < boardCards.size() - 1; j++) {
-                boardCards[j] = boardCards[j - 1] + 1;
-            }
+        for (int i = 0; i < remaining; i++) {
+            boardCards[given + i] = deck[indices[i]];
         }
     }
 

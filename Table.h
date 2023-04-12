@@ -22,6 +22,7 @@ class Table {
         std::vector<Player> getAllPlayersInfo();
         std::vector<std::vector<Card>> getPlayerCards();
         std::vector<Card> getBoard();
+        std::vector<Card> getDeck();
         int getCurrNumPlayers();
         int getNumCardsRemaining();
 

@@ -103,6 +103,10 @@ std::vector<Card> Table::getBoard() {
     return this->board;
 }
 
+std::vector<Card> Table::getDeck() {
+    return this->deck;
+}
+
 int Table::getCurrNumPlayers() {
     return this->players.size();
 }
