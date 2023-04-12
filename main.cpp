@@ -7,15 +7,27 @@ void TestFailed(std::string msg) {
     exit(0);
 }
 
-int LookupHand(std::vector<int> cards) {
-
+void printVector(std::vector<int> v) {
+    for (int c : v) std::cout << c << " ";
+    std::cout << std::endl;
 }
 
-void updateIndices(std::vector<int> indices, int n) {
+int LookupHand(std::vector<int> cards) {
+    int p = 53;
+
+    for (int c : cards) {
+        p += c;
+        p = HR[p];
+    }
+
+    return p;
+}
+
+void updateIndices(std::vector<int> &indices, int n) {
     int i = indices.size() - 1;
     bool callAgain = false;
 
-    while (i >= 0 && indices[i] >= n - 1) i--;
+    while (i >= 0 && indices[i] >= n - (indices.size() - i)) i--;
 
 
     if (i < 0) indices[0] = -1;
@@ -68,6 +80,7 @@ std::vector<double> calcProb(Table t) {
         convertedHands.push_back(ConvertCards(c));
     }
 
+
     // Get Board Cards
     std::vector<Card> givenBoard = t.getBoard();
     std::vector<int> convertedGivenBoard = ConvertCards(givenBoard);
@@ -78,7 +91,6 @@ std::vector<double> calcProb(Table t) {
     // Get the remaining cards in the deck
     std::vector<int> deck = ConvertCards(t.getDeck());
     int n = deck.size();
-
     // Counters (including one for the total)
     int total = 0;
     std::vector<int> counters(hands.size(), 0);
@@ -91,11 +103,8 @@ std::vector<double> calcProb(Table t) {
         indices.push_back(j);
     }
 
-    int curr = given;
-    bool done = false;
-
     // For each combination, lookup the player hand and add one to the counter of the winner
-    while (!done) {
+    while (true) {
         int maxVal = -1;
         int highest = 0;
 
@@ -114,28 +123,42 @@ std::vector<double> calcProb(Table t) {
 
         counters[highest] += 1;
         total += 1;
-
+        if (indices.size() == 0) break;
         // Update the indices and the board cards
         updateIndices(indices, n);
         
         if (indices[0] < 0) break;
-
         for (int i = 0; i < remaining; i++) {
             boardCards[given + i] = deck[indices[i]];
         }
     }
 
-
     // get probabilities (as a %)
+    for (int i = 0; i < counters.size(); i++) {
+        res.push_back(((static_cast<double>(counters[i])) / total) * 100);
+    }
 
     return res;
 }
 
 void playRandom(Table t) {
     t.dealCards(2);
-    t.printPlayersCards();
+
+    t.dealBoardCards(3);
+    t.printTable();
     
     std::vector<double> p = calcProb(t);
+    printProbs(p);
+
+    t.dealBoardCards(1);
+    t.printTable();
+    p = calcProb(t);
+    printProbs(p);
+    
+    // River
+    t.dealBoardCards(1);
+    t.printTable();
+    p = calcProb(t);
     printProbs(p);
 }
 
@@ -162,7 +185,9 @@ int main(int argc, char *argv[]) {
     t.addPlayers(n);
     playRandom(t);
 
-
+    // Testing the lookup function
+    // std::vector<int> temp = { 2,3,33, 37, 41, 45, 49};
+    // std::cout << LookupHand(temp) << std::endl;
 
 
 
