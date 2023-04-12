@@ -29,6 +29,17 @@ void Table::resetAndShuffleDeck() {
     std::shuffle(std::begin(this->deck), std::end(this->deck), rng);
 }
 
+std::vector<std::vector<Card>> Table::getPlayerCards() {
+    int s = this->players.size();
+    std::vector<std::vector<Card>> res;
+
+    for (int i = 0; i < s; i++) {
+        res.push_back(this->players[i].getHand().getCards());
+    }
+
+    return res;
+}
+
 Table::Table() {
     resetAndShuffleDeck();
 }
@@ -126,9 +137,9 @@ void Table::printBoard() {
 }
 
 void Table::printTable() {
-    // Print the player cards
-    this->printPlayersCards();
-
     // Print the board
     this->printBoard();
+
+    // Print the player cards
+    this->printPlayersCards();
 }

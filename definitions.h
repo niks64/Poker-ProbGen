@@ -8,9 +8,10 @@
 #include <random>
 #include <algorithm>
 #include <string.h>
+#include <cmath>
 
 
-enum suit {SPADE = 1, HEART = 2, DIAMOND = 3, CLUB = 4};
+enum suit {SPADE = 4, HEART = 3, DIAMOND = 2, CLUB = 1};
 enum value {two=2, three=3, four=4, five=5, six=6, seven=7, eight=8, nine=9, ten=10, jack=11, queen=12, king=13, ace=14};
 
 static std::unordered_map<suit, std::string> suitStrings = {

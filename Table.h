@@ -2,6 +2,9 @@
 #define TABLE_H
 #include "Player.h"
 
+void printNewLine(int n);
+void printBar();
+
 class Table {
     private:
         const unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -17,6 +20,7 @@ class Table {
         
         // getters
         std::vector<Player> getAllPlayersInfo();
+        std::vector<std::vector<Card>> getPlayerCards();
         std::vector<Card> getBoard();
         int getCurrNumPlayers();
         int getNumCardsRemaining();
