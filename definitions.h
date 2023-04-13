@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <string.h>
 #include <cmath>
+#include <sstream>
 
 
 enum suit {SPADE = 4, HEART = 3, DIAMOND = 2, CLUB = 1};

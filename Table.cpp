@@ -86,6 +86,7 @@ void Table::dealCards(int numCards) {
 void Table::addPlayers(int numPlayers) {
     for (int i = 0; i < numPlayers; i++) {
         this->players.push_back(Player());
+        this->players[i].setNum(i + 1);
     }
 }
 
@@ -97,6 +98,17 @@ void Table::removePlayers(int numPlayers) {
 
 std::vector<Player> Table::getAllPlayersInfo() {
     return this->players;
+}
+
+void Table::foldPlayer(int num) {
+    int s = this->players.size();
+
+    // get the element to fold and remove
+    for (int i = 0; i < s; i++) {
+        if (this->players[i].getNum() == num) {
+            this->players.erase(this->players.begin() + i);
+        }
+    }
 }
 
 std::vector<Card> Table::getBoard() {
@@ -112,17 +124,23 @@ int Table::getCurrNumPlayers() {
 }
 
 
+void Table::printPlayersNums() {
+    int s = this->players.size();
+
+    for (int i = 0; i < s; i++) {
+        printf("%-*s", TEXAS_HAND_STRING_LENGTH, ("P" + std::to_string(this->players[i].getNum())).c_str());
+        printBar();
+    }
+    printNewLine(1);
+}
+
 void Table::printPlayersCards() {
     int s = this->players.size();
 
     printNewLine(1);
     printf("%s\n", "--- Player Cards ---");
 
-    for (int i = 0; i < s; i++) {
-        printf("%-*s", TEXAS_HAND_STRING_LENGTH, ("P" + std::to_string(i + 1)).c_str());
-        printBar();
-    }
-    printNewLine(1);
+    this->printPlayersNums();
 
     for (int i = 0; i < s; i++) {
         this->players[i].printHand();

@@ -67,7 +67,35 @@ void printProbs(std::vector<double> p) {
         printBar();
     }
     
-    printNewLine(1);
+    printNewLine(2);
+}
+
+std::vector<int> convertStringToVector(const std::string& input)
+{
+    std::vector<int> result;
+    std::stringstream ss(input);
+    int num;
+    while (ss >> num)
+    {
+        result.push_back(num);
+        ss.ignore();
+    }
+    return result;
+}
+
+void askFold(Table &t) {
+    std::string input;
+    std::cout << "Input folded player nums (CSV) (n for none): \n";
+    //std::getline(std::cin, input);
+    std::cin >> input;
+    
+    if (input == "n") return;
+    
+    std::vector<int> inp = convertStringToVector(input);
+
+    for (int i : inp) {
+        t.foldPlayer(i);
+    }
 }
 
 std::vector<double> calcProb(Table t) {
@@ -147,40 +175,34 @@ void playRandom(Table t) {
     // Deal cards to the players
     t.dealCards(2);
     std::vector<double> p = calcProb(t);
+    t.printTable();
     printProbs(p);
 
     // Ask to continue
-    std::string input;
-    std::cout << "Enter comma-separated list of folded player numbers (q to quit): \n";
-    std::cin >> input;
-    if (input == "q") return;
+    askFold(t);
 
     // Flop
     t.dealBoardCards(3);
-    t.printTable();
     p = calcProb(t);
+    t.printTable();
     printProbs(p);
     
     // Ask to continue
-    std::cout << "Enter any button to simulate turn (q to quit): ";
-    std::cin >> input;
-    if (input == "q") return;
+    askFold(t);
 
     // Turn
     t.dealBoardCards(1);
-    t.printTable();
     p = calcProb(t);
+    t.printTable();
     printProbs(p);
     
     // Ask to continue
-    std::cout << "Enter any button to simulate river (q to quit): ";
-    std::cin >> input;
-    if (input == "q") return;
+    askFold(t);
     
     // River
     t.dealBoardCards(1);
-    t.printTable();
     p = calcProb(t);
+    t.printTable();
     printProbs(p);
 }
 

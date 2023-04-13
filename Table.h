@@ -33,8 +33,10 @@ class Table {
         void dealCards(int numCards);
         void addPlayers(int numPlayers);
         void removePlayers(int numPlayers);
+        void foldPlayer(int index);
 
         // prints
+        void printPlayersNums();
         void printPlayersCards();
         void printBoard();
         void printTable();
