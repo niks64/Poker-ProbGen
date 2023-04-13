@@ -142,18 +142,40 @@ std::vector<double> calcProb(Table t) {
 }
 
 void playRandom(Table t) {
-    t.dealCards(2);
+    int n = t.getCurrNumPlayers();
 
-    t.dealBoardCards(3);
-    t.printTable();
-    
+    // Deal cards to the players
+    t.dealCards(2);
     std::vector<double> p = calcProb(t);
     printProbs(p);
 
+    // Ask to continue
+    std::string input;
+    std::cout << "Enter comma-separated list of folded player numbers (q to quit): \n";
+    std::cin >> input;
+    if (input == "q") return;
+
+    // Flop
+    t.dealBoardCards(3);
+    t.printTable();
+    p = calcProb(t);
+    printProbs(p);
+    
+    // Ask to continue
+    std::cout << "Enter any button to simulate turn (q to quit): ";
+    std::cin >> input;
+    if (input == "q") return;
+
+    // Turn
     t.dealBoardCards(1);
     t.printTable();
     p = calcProb(t);
     printProbs(p);
+    
+    // Ask to continue
+    std::cout << "Enter any button to simulate river (q to quit): ";
+    std::cin >> input;
+    if (input == "q") return;
     
     // River
     t.dealBoardCards(1);
@@ -184,10 +206,6 @@ int main(int argc, char *argv[]) {
     Table t = Table();
     t.addPlayers(n);
     playRandom(t);
-
-    // Testing the lookup function
-    // std::vector<int> temp = { 2,3,33, 37, 41, 45, 49};
-    // std::cout << LookupHand(temp) << std::endl;
 
 
 
