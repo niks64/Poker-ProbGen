@@ -74,8 +74,10 @@ void printWinnerHelper(Player p, Table t) {
     mergedVector.insert(mergedVector.end(), convertedBoard.begin(), convertedBoard.end());
 
     int strength = LookupHand(mergedVector);
-    
+    int handType = strength >> 12;
+
     // Print the winner
+    std::cout << "Player " << p.getNum() << " wins with " << handTypes[handType] << "!!!" << std::endl;
 }
 
 void printWinner(Table t, std::vector<double> p) {
@@ -135,16 +137,16 @@ std::vector<std::string> stringToSpaceSeparatedArray(const std::string& input)
 
 std::vector<Card> getVectorOfCards(std::string msg) {
     std::string input;
+    std::vector<Card> res;
 
     std::cout << msg << std::endl;
     //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     //std::cin >> input;
     std::getline(std::cin, input);
 
+    if (input == "n") return res;
 
     std::vector<std::string> tokens = stringToSpaceSeparatedArray(input);
-    
-    std::vector<Card> res;
     
     for (std::string token : tokens) {
         value v = charValues[token[0]];
@@ -277,6 +279,8 @@ void playRandom(Table t) {
     p = calcProb(t);
     t.printTable();
     printProbs(p);
+
+    if (checkWinner(t, p)) printWinner(t, p);
 }
 
 void specific(Table t) {
@@ -302,6 +306,32 @@ void specific(Table t) {
     std::vector<double> p = calcProb(t);
 
     printProbs(p);
+
+    if (!checkWinner(t,p)) {
+        std::string answer;
+        std::cout << "Do you want to simulate the rest? (y/n)" << std::endl;
+        std::getline(std::cin, answer);
+        
+        if (answer == "n") return;
+        else {
+            if (t.getBoardSize() == 0) {
+                t.dealBoardCards(3);
+                t.printBoard();
+            }
+
+            if (t.getBoardSize() == 3) {
+                t.dealBoardCards(1);
+                t.printBoard();
+            }
+
+            if (t.getBoardSize() == 4) {
+                t.dealBoardCards(1);
+                t.printBoard();
+            }
+
+            p = calcProb(t);
+        }
+    }
 
     if (checkWinner(t, p)) printWinner(t, p);
 }

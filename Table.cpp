@@ -138,6 +138,10 @@ std::vector<Card> Table::getBoard() {
     return this->board;
 }
 
+int Table::getBoardSize() {
+    return this->board.size();
+}
+
 std::vector<Card> Table::getDeck() {
     return this->deck;
 }

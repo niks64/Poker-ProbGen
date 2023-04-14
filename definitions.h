@@ -61,6 +61,19 @@ static std::unordered_map<char, value> charValues = {
     {'A', ace}
 };
 
+static std::unordered_map<int, std::string> handTypes = {
+    {0, "BAD"},
+    {1, "High Card"},
+    {2, "Pair"},
+    {3, "Two Pair"},
+    {4, "Trips"},
+    {5, "Straight"},
+    {6, "Flush"},
+    {7, "Full House"},
+    {8, "Quads"},
+    {9, "Straight Flush"},
+};
+
 const int NUM_VALUES= 13;
 const int NUM_SUITS = 4;
 
