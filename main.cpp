@@ -316,17 +316,23 @@ void specific(Table t) {
         else {
             if (t.getBoardSize() == 0) {
                 t.dealBoardCards(3);
-                t.printBoard();
+                p = calcProb(t);
+                t.printTable();
+                printProbs(p);
+                askFold(t);
             }
 
             if (t.getBoardSize() == 3) {
                 t.dealBoardCards(1);
-                t.printBoard();
+                p = calcProb(t);
+                t.printTable();
+                printProbs(p);
+                askFold(t);
             }
 
             if (t.getBoardSize() == 4) {
                 t.dealBoardCards(1);
-                t.printBoard();
+                t.printTable();
             }
 
             p = calcProb(t);
