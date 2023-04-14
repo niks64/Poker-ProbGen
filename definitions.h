@@ -31,11 +31,34 @@ static std::unordered_map<value, std::string> valueStrings = {
     {seven, "7"},
     {eight, "8"},
     {nine, "9"},
-    {ten, "10"},
+    {ten, "T"},
     {jack, "J"},
     {queen, "Q"},
     {king, "K"},
     {ace, "A"}
+};
+
+static std::unordered_map<char, suit> charSuits = {
+    {'s', SPADE},
+    {'d', DIAMOND},
+    {'h', HEART},
+    {'c', CLUB}
+};
+
+static std::unordered_map<char, value> charValues = {
+    {'2', two},
+    {'3', three},
+    {'4', four},
+    {'5', five},
+    {'6', six},
+    {'7', seven},
+    {'8', eight},
+    {'9', nine},
+    {'T', ten},
+    {'J', jack},
+    {'Q', queen},
+    {'K', king},
+    {'A', ace}
 };
 
 const int NUM_VALUES= 13;

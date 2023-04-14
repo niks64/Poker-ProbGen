@@ -15,5 +15,10 @@ class Card {
 
         //print
         void print();
+
+        //operators
+        bool operator==(const Card &c);
+        bool operator!=(const Card &c);
+
 };
 #endif

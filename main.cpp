@@ -56,6 +56,38 @@ std::vector<int> ConvertCards(std::vector<Card> cards) {
     return res;
 }
 
+bool checkWinner(Table t, std::vector<double> p) {
+    for (double d : p) {
+        if ((int)d == 100) return true;
+    }
+
+    return false;
+}
+
+void printWinnerHelper(Player p, Table t) {
+    // Get the hand strength value
+    std::vector<int> convertedHand = ConvertCards(p.getHand().getCards());
+    std::vector<int> convertedBoard = ConvertCards(t.getBoard());
+
+    std::vector<int> mergedVector;
+    mergedVector.insert(mergedVector.end(), convertedHand.begin(), convertedHand.end());
+    mergedVector.insert(mergedVector.end(), convertedBoard.begin(), convertedBoard.end());
+
+    int strength = LookupHand(mergedVector);
+    
+    // Print the winner
+}
+
+void printWinner(Table t, std::vector<double> p) {
+    std::vector<Player> players = t.getAllPlayersInfo();
+    
+    for (int i = 0 ; i < p.size(); i++) {
+        if ((int)p[i] == 100) {
+            printWinnerHelper(players[i], t);
+        }
+    }
+}
+
 void printProbs(std::vector<double> p) {
     printNewLine(1);
     printf("%s\n", "---- Winning Odds ---");
@@ -81,6 +113,47 @@ std::vector<int> convertStringToVector(const std::string& input)
         ss.ignore();
     }
     return result;
+}
+
+std::vector<std::string> stringToSpaceSeparatedArray(const std::string& input)
+{
+    std::vector<std::string> result;
+    std::string temp = "";
+
+    for (int i = 0; i < input.size(); i++) {
+        if (!std::isspace(input[i])) temp += input[i];
+        else {
+            result.push_back(temp);
+            temp = "";
+        }
+    }
+
+    result.push_back(temp);
+    
+    return result;
+}
+
+std::vector<Card> getVectorOfCards(std::string msg) {
+    std::string input;
+
+    std::cout << msg << std::endl;
+    //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    //std::cin >> input;
+    std::getline(std::cin, input);
+
+
+    std::vector<std::string> tokens = stringToSpaceSeparatedArray(input);
+    
+    std::vector<Card> res;
+    
+    for (std::string token : tokens) {
+        value v = charValues[token[0]];
+        suit s = charSuits[token[1]];
+
+        res.push_back(Card(s,v));
+    }
+
+    return res;
 }
 
 void askFold(Table &t) {
@@ -206,6 +279,33 @@ void playRandom(Table t) {
     printProbs(p);
 }
 
+void specific(Table t) {
+    int n = t.getCurrNumPlayers();
+        
+    // Set the hands for the players
+    std::cout << "Please the cards in the format 2s Th Jc Ad\n\n";
+    for (int i = 0 ; i < n; i++) {
+        // Get the cards for the hand
+        std::vector<Card> cardsToAdd = getVectorOfCards("Enter the hand of player " + std::to_string(i + 1) + ":");
+
+        t.addHand(cardsToAdd, i);
+    }
+
+    // Get the board cards
+    std::vector<Card> cardsToAdd = getVectorOfCards("Enter the board cards: ");
+    printNewLine(1);
+
+    // Set the board
+    t.setBoardCards(cardsToAdd);
+
+    t.printTable();
+    std::vector<double> p = calcProb(t);
+
+    printProbs(p);
+
+    if (checkWinner(t, p)) printWinner(t, p);
+}
+
 int main(int argc, char *argv[]) {
 
     // Load the Table
@@ -218,16 +318,33 @@ int main(int argc, char *argv[]) {
     std::cout << "Loaded the Hand Ranks File." << std::endl;
 
 
+    // Check whether to deal randomly or enter specific cards
+    bool ifSpecify = false;
+
+    if (argc > 1 && strcmp("-s", argv[1]) == 0) {
+        ifSpecify = true;
+    }
+    
+    Table t = Table();
+
     // Ask configurations of the table:
     // - how many players (n)
     int n;
     std::cout << "Please enter the number of players: " << std::endl;
     std::cin >> n;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    // Setup the Table
-    Table t = Table();
     t.addPlayers(n);
-    playRandom(t);
+
+    printNewLine(1);
+
+    if (ifSpecify) {
+        specific(t);
+    }
+    else {
+        // Setup the Table
+        playRandom(t);
+    }
 
 
 
@@ -240,10 +357,4 @@ int main(int argc, char *argv[]) {
         // print probabilities and ask whether any should be folded
         // Deal board and ask whether any players (1->n) should be folded at each step
 
-    // Check whether to deal randomly or enter specific cards
-    // bool ifSpecify = false;
-    
-    // if (argc > 1 && strcmp("-s", argv[1]) == 0) {
-    //     ifSpecify = true;
-    // }
 }

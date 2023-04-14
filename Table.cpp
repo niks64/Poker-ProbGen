@@ -60,7 +60,8 @@ Card Table::drawCard() {
 }
 
 void Table::dealBoardCards(int numCards) {
-    this->drawCard();
+    // Burn a card
+    //this->drawCard();
     for (int i = 0; i < numCards; i++) {
         Card tempCard = this->drawCard();
         board.push_back(tempCard);
@@ -108,6 +109,28 @@ void Table::foldPlayer(int num) {
         if (this->players[i].getNum() == num) {
             this->players.erase(this->players.begin() + i);
         }
+    }
+}
+
+void Table::setBoardCards(std::vector<Card> c) {
+    for (Card temp : c) this->useCard(temp);
+    this->board = c;
+}
+
+void Table::addHand(std::vector<Card> c, int i) {
+    for (Card temp : c) this->useCard(temp);
+    this->players[i].addHand(c);
+}
+
+void Table::useCard(Card c) {
+    auto it = std::find(begin(this->deck), end(this->deck), c);
+    if (it != this->deck.end()) {
+        this->deck.erase(it);
+        this->usedCards.push_back(c);
+    }
+    else {
+        std::cout << "Invalid Card Entered." << std::endl;
+        exit(0);
     }
 }
 

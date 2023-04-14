@@ -5,11 +5,15 @@ TEST_EXECUTABLE = tester
 TABLE_GENERATION_FILE = ./TableGeneration/generate_table.cpp
 TABLE_GENERATION_EXECUTABLE = ./TableGeneration/generate_table
 TABLE = ./TableGeneration/HandRanks.dat
+SPECIFIC_FLAG = -s
 
 build:
 	g++ main.cpp Card.cpp Hand.cpp Player.cpp Table.cpp ${MAINFLAGS} -o ${MAIN_EXECUTABLE}
 	./${MAIN_EXECUTABLE}
-	
+
+specific:
+	g++ main.cpp Card.cpp Hand.cpp Player.cpp Table.cpp ${MAINFLAGS} -o ${MAIN_EXECUTABLE}
+	./${MAIN_EXECUTABLE} ${SPECIFIC_FLAG}	
 
 test:
 	g++ test.cpp Card.cpp Hand.cpp Player.cpp Table.cpp ${TESTFLAGS} -o ${TEST_EXECUTABLE}

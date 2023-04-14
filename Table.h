@@ -34,6 +34,9 @@ class Table {
         void addPlayers(int numPlayers);
         void removePlayers(int numPlayers);
         void foldPlayer(int index);
+        void setBoardCards(std::vector<Card> c);
+        void addHand(std::vector<Card> c, int i);
+        void useCard(Card c);
 
         // prints
         void printPlayersNums();
